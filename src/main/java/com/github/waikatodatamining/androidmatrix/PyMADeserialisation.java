@@ -141,6 +141,24 @@ public class PyMADeserialisation {
   }
 
   /**
+   * Deserialises a matrix with only one row from the given stream.
+   *
+   * @param stream	The stream of serialised data.
+   * @return		The row of the matrix.
+   */
+  public static double[] deserialiseOneDimensionalMatrix(InputStream stream) throws IOException, RuntimeException {
+    // Deserialise the matrix
+    double[][] matrix = deserialiseMatrix(stream);
+
+    // Make sure the matrix is 1-dimensional
+    if (matrix.length > 1)
+      throw new RuntimeException("Expected matrix with only 1 row, " +
+        "got " + matrix.length);
+
+    return matrix[0];
+  }
+
+  /**
    * Creates a wrapper for the given byte array.
    *
    * @param bytes   The array to wrap.

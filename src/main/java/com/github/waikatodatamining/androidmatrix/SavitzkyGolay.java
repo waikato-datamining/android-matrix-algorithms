@@ -51,20 +51,11 @@ public class SavitzkyGolay
   @Override
   protected void initialize(InputStream stream) {
     // Deserialise a matrix from the state
-    double[][] matrix;
     try {
-      matrix = PyMADeserialisation.deserialiseMatrix(stream);
+      m_Coefficients = PyMADeserialisation.deserialiseOneDimensionalMatrix(stream);
     } catch (IOException ioe) {
       throw new RuntimeException("Error initializing from stream", ioe);
     }
-
-    // Make sure we got a matrix with only one row
-    if (matrix.length > 1)
-      throw new RuntimeException("Coefficient matrix for Savitzky-Golay should only" +
-        " have one row, got " + matrix.length + "x" + matrix[0].length);
-
-    // Save the one row as our coefficients
-    m_Coefficients = matrix[0];
   }
 
   /**
