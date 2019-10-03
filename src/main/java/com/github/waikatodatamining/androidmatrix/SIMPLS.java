@@ -39,7 +39,7 @@ public class SIMPLS
    *
    * @param stream the stream to read the setup (eg matrices) from
    */
-  protected SIMPLS(InputStream stream) {
+  public SIMPLS(InputStream stream) {
     super(stream);
   }
 

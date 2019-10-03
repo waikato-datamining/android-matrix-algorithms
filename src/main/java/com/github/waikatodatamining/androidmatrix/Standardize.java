@@ -43,7 +43,7 @@ public class Standardize
    *
    * @param stream the stream to read the setup (eg matrices) from
    */
-  protected Standardize(InputStream stream) {
+  public Standardize(InputStream stream) {
     super(stream);
   }
 

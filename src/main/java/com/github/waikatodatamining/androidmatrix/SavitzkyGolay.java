@@ -39,7 +39,7 @@ public class SavitzkyGolay
    *
    * @param stream the stream to read the setup (eg matrices) from
    */
-  protected SavitzkyGolay(InputStream stream) {
+  public SavitzkyGolay(InputStream stream) {
     super(stream);
   }
 
