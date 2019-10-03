@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.Charset;
 
 /**
  * Static class which provides utilities for deserialising
@@ -112,6 +113,25 @@ public class PyMADeserialisation {
       doubles[i] = converter.getDouble();
 
     return doubles;
+  }
+
+  /**
+   * Deserialises a string from the stream.
+   *
+   * @param stream		The stream to read from.
+   * @return			The string.
+   * @throws IOException	If there is an error reading from the stream.
+   * @throws RuntimeException	If there isn't enough data in the stream to fill the request.
+   */
+  public static String deserialiseString(InputStream stream) throws IOException, RuntimeException {
+    // Get the length of the string in bytes
+    int length = deserialiseInts(stream, 1)[0];
+
+    // Read the string bytes
+    byte[] bytes = deserialiseBytes(stream, length);
+
+    // Decode and return the string
+    return new String(bytes, Charset.forName("UTF-8"));
   }
 
   /**
