@@ -45,4 +45,17 @@ public class StandardizeTest {
 
   }
 
+  @Test
+  public void applyInverse() throws Exception {
+    Standardize standardize = new Standardize(new FileInputStream("src/test/resources/com/github/waikatodatamining/androidmatrix/Standardize.dat"));
+
+    double[][] bolts = PyMADeserialisation.deserialiseMatrix(new FileInputStream("src/test/resources/com/github/waikatodatamining/androidmatrix/bolts.dat"));
+
+    double[][] expectedResponse = PyMADeserialisation.deserialiseMatrix(new FileInputStream("src/test/resources/com/github/waikatodatamining/androidmatrix/Standardize-bolts.dat"));
+
+    for (int i = 0; i < bolts.length; i++)
+      Assertions.assertArrayEquals(bolts[i], standardize.applyInverse(expectedResponse[i]), 1e-13);
+
+  }
+
 }

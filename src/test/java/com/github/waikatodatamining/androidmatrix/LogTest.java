@@ -45,4 +45,17 @@ public class LogTest {
 
   }
 
+  @Test
+  public void applyInverse() throws Exception {
+    Log log = new Log(new FileInputStream("src/test/resources/com/github/waikatodatamining/androidmatrix/Log.dat"));
+
+    double[][] bolts = PyMADeserialisation.deserialiseMatrix(new FileInputStream("src/test/resources/com/github/waikatodatamining/androidmatrix/bolts.dat"));
+
+    double[][] expectedResponse = PyMADeserialisation.deserialiseMatrix(new FileInputStream("src/test/resources/com/github/waikatodatamining/androidmatrix/Log-bolts.dat"));
+
+    for (int i = 0; i < bolts.length; i++)
+      Assertions.assertArrayEquals(bolts[i], log.applyInverse(expectedResponse[i]), 1e-13);
+
+  }
+
 }

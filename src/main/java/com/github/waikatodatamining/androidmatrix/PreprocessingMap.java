@@ -91,6 +91,18 @@ public class PreprocessingMap {
    * @throws Exception	if conversion fails
    */
   public Map<String, double[]> apply(Map<String, double[]> data) throws Exception {
+    return apply(data, false);
+  }
+
+  /**
+   * Applies the preprocessing to the data.
+   *
+   * @param data	the data to convert
+   * @param inverse whether to inverse-apply the preprocessing
+   * @return		the converted data
+   * @throws Exception	if conversion fails
+   */
+  public Map<String, double[]> apply(Map<String, double[]> data, boolean inverse) throws Exception {
     // Create the results map
     Map<String, double[]> result = new HashMap<>();
 
@@ -103,7 +115,7 @@ public class PreprocessingMap {
       double[] inputData = data.get(name);
 
       // Apply the preprocessing to the input data
-      double[] resultData = stages.apply(inputData);
+      double[] resultData = inverse ? stages.applyInverse(inputData) : stages.apply(inputData);
 
       // Add the result to the results map
       result.put(name, resultData);
@@ -120,8 +132,20 @@ public class PreprocessingMap {
    * @throws Exception	if conversion fails
    */
   public double[][] applyOrdered(Map<String, double[]> data) throws Exception {
+    return applyOrdered(data, false);
+  }
+
+    /**
+     * Applies the preprocessing to the data.
+     *
+     * @param data	the data to convert
+     * @param inverse whether to inverse-apply the preprocessing
+     * @return		the converted data
+     * @throws Exception	if conversion fails
+     */
+    public double[][] applyOrdered(Map<String, double[]> data, boolean inverse) throws Exception {
     // Apply unordered
-    Map<String, double[]> unordered = apply(data);
+    Map<String, double[]> unordered = apply(data, inverse);
 
     // Create the result array
     double[][] result = new double[m_Ordering.length][];

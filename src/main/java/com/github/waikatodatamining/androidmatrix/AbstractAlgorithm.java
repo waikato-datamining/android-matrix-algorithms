@@ -26,7 +26,7 @@ import java.io.Serializable;
  * @author FracPete (fracpete at waikato dot ac dot nz)
  */
 public abstract class AbstractAlgorithm
-  implements Serializable {
+  implements Algorithm, Serializable {
 
   /**
    * Initializes the algorithm.
@@ -43,13 +43,4 @@ public abstract class AbstractAlgorithm
    * @param stream	the stream to read the setup (eg matrices) from
    */
   protected abstract void initialize(InputStream stream);
-
-  /**
-   * Applies the algorithm to the data.
-   *
-   * @param data	the data to convert
-   * @return		the converted data
-   * @throws Exception	if conversion fails
-   */
-  public abstract double[] apply(double[] data) throws Exception;
 }

@@ -29,7 +29,8 @@ import java.io.InputStream;
  * @author Corey Sterling (csterlin at waikato dot ac dot nz)
  */
 public class Log
-  extends AbstractAlgorithm {
+  extends AbstractAlgorithm
+  implements InvertibleAlgorithm {
 
   // The base of the logarithm
   protected double m_Base;
@@ -75,6 +76,23 @@ public class Log
 
       // Apply the logarithm
       result[i] = StrictMath.log(result[i]) * m_BaseConversionFactor;
+    }
+
+    return result;
+  }
+
+  @Override
+  public double[] applyInverse(double[] data) throws Exception {
+    // Create the result buffer
+    double[] result = new double[data.length];
+
+    // Apply the algorithm to each element
+    for (int i = 0; i < data.length; i++) {
+      // Undo the logarithm
+      result[i] = StrictMath.exp(data[i] / m_BaseConversionFactor);
+
+      // Undo the offset
+      result[i] -= m_Offset;
     }
 
     return result;

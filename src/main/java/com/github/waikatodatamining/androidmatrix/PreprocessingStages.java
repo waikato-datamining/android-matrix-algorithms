@@ -31,7 +31,8 @@ import java.lang.reflect.InvocationTargetException;
  * @author Corey Sterling (csterlin at waikato dot ac dot nz)
  */
 public class PreprocessingStages
-  extends AbstractAlgorithm {
+  extends AbstractAlgorithm
+  implements InvertibleAlgorithm{
 
     /** The stages of preprocessing to apply. */
     protected AbstractAlgorithm[] m_Stages;
@@ -95,4 +96,21 @@ public class PreprocessingStages
 
       return data;
     }
+
+  @Override
+  public double[] applyInverse(double[] data) throws Exception {
+    // Inverse-apply the data to each stage in reverse order
+    for (int i = m_Stages.length - 1; i >= 0; i--) {
+      // Get the stage reference
+      AbstractAlgorithm stage = m_Stages[i];
+
+      // Inverse-apply the stage
+      if (stage instanceof InvertibleAlgorithm)
+        data = ((InvertibleAlgorithm) stage).applyInverse(data);
+      else
+        throw new RuntimeException("Stages contains " + stage.getClass().getName() + " which is not invertible");
+    }
+
+    return data;
+  }
 }

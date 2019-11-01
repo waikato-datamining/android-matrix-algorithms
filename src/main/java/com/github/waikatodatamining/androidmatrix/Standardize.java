@@ -30,7 +30,8 @@ import java.io.InputStream;
  * @author Corey Sterling (csterlin at waikato dot ac dot nz)
  */
 public class Standardize
-  extends AbstractAlgorithm {
+  extends AbstractAlgorithm
+  implements InvertibleAlgorithm {
 
   /** The means of the columns to standardize to. */
   protected double[] m_ColumnMeans;
@@ -78,11 +79,8 @@ public class Standardize
    */
   @Override
   public double[] apply(double[] data) throws Exception {
-    // Make sure the data is the same size as the state matrices
-    if (data.length != m_ColumnMeans.length)
-      throw new RuntimeException("Data size doesn't match state size " +
-        "(" + data.length + " columns for " +
-        m_ColumnMeans.length + " state columns)");
+    // Check the data
+    ensureDataLength(data);
 
     // Generate the result data
     double[] result = new double[data.length];
@@ -90,5 +88,33 @@ public class Standardize
       result[i] = (data[i] - m_ColumnMeans[i]) / m_ColumnStdDevs[i];
 
     return result;
+  }
+
+  @Override
+  public double[] applyInverse(double[] data) throws Exception {
+    // Check the data
+    ensureDataLength(data);
+
+    // Generate the result data
+    double[] result = new double[data.length];
+    for (int i = 0; i < data.length; i++)
+      result[i] = data[i] * m_ColumnStdDevs[i] + m_ColumnMeans[i];
+
+    return result;
+  }
+
+  /**
+   * Makes sure the data to apply and applyInverse is the right size
+   * for the state matrices.
+   *
+   * @param data                The data to check.
+   * @throws RuntimeException   If the data is the wrong size.
+   */
+  protected void ensureDataLength(double[] data) throws RuntimeException {
+    // Make sure the data is the same size as the state matrices
+    if (data.length != m_ColumnMeans.length)
+      throw new RuntimeException("Data size doesn't match state size " +
+            "(" + data.length + " columns for " +
+            m_ColumnMeans.length + " state columns)");
   }
 }
