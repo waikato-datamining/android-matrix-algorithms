@@ -7,4 +7,11 @@ How to make a release
   mvn release:clean release:prepare release:perform
   ```
 
+
 * Push all changes
+
+* Go to the following URL and publish the artifact:
+
+  ```
+  https://central.sonatype.com/publishing/deployments
+  ```
